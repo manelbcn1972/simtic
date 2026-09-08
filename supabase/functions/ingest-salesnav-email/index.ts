@@ -35,6 +35,6 @@ Deno.serve(async (request) => {
     next_best_action: { action: score >= 70 ? "Contactar en 48 horas" : "Revisar y enriquecer", priority: score >= 70 ? "high" : "normal" }
   }, { onConflict: "event_id" });
   // Providers are explicit records: unavailable credentials never block event persistence.
-  await supabase.from("lead_signal_enrichments").upsert(["apollo", "clay", "predictleads", "crunchbase"].map(provider => ({ event_id: saved.id, provider, status: "pending" })), { onConflict: "event_id,provider" });
+  await supabase.from("lead_signal_enrichments").upsert(["apollo", "predictleads", "crunchbase"].map(provider => ({ event_id: saved.id, provider, status: "pending" })), { onConflict: "event_id,provider" });
   return json({ accepted: true, eventId: saved.id, event, opportunityScore: score }, 202);
 });
